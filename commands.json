@@ -1,0 +1,3 @@
+[
+  {"trigger":"toggle vpn","command":"/opt/vpntoggle/vpn_on.sh","offCommand":"/opt/vpntoggle/vpn_off.sh","ground":"background","voice":"VPN","allowParams":"true"}
+]
