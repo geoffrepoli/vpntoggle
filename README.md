@@ -14,15 +14,14 @@ d. Configure auto-login
 ### 1.3. Optional configuration
 Perform any other optional settings/configurations you may want (such as key-based SSH, etc.)
 ### 1.4. Update repos
-Run `sudo apt-get -y update && sudo apt-get -y upgrade`
-`sudo apt-get dist-upgrade`
-### 1.5. Set up sysctl.conf
-`sudo mv /etc/sysctl.conf /etc/sysctl.conf.bak`
+```console
+foo@rpi:~$ sudo apt-get -y update && sudo apt-get -y upgrade
+foo@rpi:~$ sudo apt-get dist-upgrade
 ```
-sudo printf "%s\n" "# Disable IPv6" "net.ipv6.conf.all.disable_ipv6 = 1" \
-"net.ipv6.conf.default.disable_ipv6 = 1" "net.ipv6.conf.lo.disable_ipv6 = 1" \
-"net.ipv6.conf.tun0.disable_ipv6 = 1" "# Enable IP Routing" \
-"net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+### 1.5. Set up sysctl.conf
+```console
+foo@rpi:~$ sudo mv /etc/sysctl.conf /etc/sysctl.conf.bak_$(date "+%Y%m%d_%H%M%S")
+foo@rpi:~$ sudo echo -e "\n# Disable IPv6\nnet.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1\nnet.ipv6.conf.lo.disable_ipv6 = 1\nnet.ipv6.conf.tun0.disable_ipv6 = 1\n\n# Enable IP Routing\nnet.ipv4.ip_forward = 1" >> /etc/sysctl.conf
 ```
 
 ## Part 2: Setting up NordVPN
@@ -30,15 +29,15 @@ sudo printf "%s\n" "# Disable IPv6" "net.ipv6.conf.all.disable_ipv6 = 1" \
 ### 2.1 Install NordVPN client
 
 ### 2.2 Log in to NordVPN
-nordvpn login --token <your_generated_token>
-
+```console
+foo@rpi:~$ nordvpn login --token <your_generated_token>
+```
 ## Part 3: Setting up the VPN Toggle workflow
 ### 3.2 Create directory for VPN scripts to reside
-In my case I went for /opt/vpntoggle. You can choose whichever
-`sudo mkdir /opt/vpntoggle`
+Enter `sudo mkdir /opt/vpntoggle`. Note that you don't have to use that path, you can choose a different one if you want.
 ### 3.3 Add the scripts named vpn_on.sh and vpn_off.sh in this repo to the directory created above
 ### 3.4 Make scripts executable
-`sudo chmod +x /opt/vpn/toggle/*.sh`
+Enter `sudo chmod +x /opt/vpn/toggle/*.sh`
 
 ## Part 4: Preparing your network
 ### 4.1 Configure your network
@@ -49,20 +48,24 @@ In my case I went for /opt/vpntoggle. You can choose whichever
 ## Part 5: Setting up TriggerCMD
 ### 5.1 Get TriggerCMD
 ### 5.2 Install TriggerCMD
-`sudo su -`
-`apt -y install npm nodejs`
-`wget https://agents.triggercmd.com/triggercmdagent_1.0.1_all.deb`
-`dpkg -i triggercmdagent_1.0.1_all.deb`
-`triggercmdagent`
-paste your agent install token when prompted. You can find your token here: https://www.triggercmd.com/user/computer/create
-Kill the foreground service by pressing CTRL+C
-`/usr/share/triggercmdagent/app/src/installdaemon.sh`
+```console
+foo@rpi:~$ sudo su -
+root@rpi:~# apt -y install npm nodejs
+root@rpi:~# wget https://agents.triggercmd.com/triggercmdagent_1.0.1_all.deb
+root@rpi:~# dpkg -i triggercmdagent_1.0.1_all.deb
+root@rpi:~# triggercmdagent
+<paste your agent install token when prompted and hit ENTER. You can find your token here: https://www.triggercmd.com/user/computer/create>
+<Kill the foreground service by pressing CTRL+C>
+root@rpi:~# /usr/share/triggercmdagent/app/src/installdaemon.sh
+```
 ### 5.3 Edit triggers
-`sudo su -`
-`cd /root/.TRIGGERcmdData`
-`mv ./commands.json ./commands.json.bak_$(date "%Y%m%d_%H%M%S)`
-Replace *commands.json* file with the one in this repo
-`systemctl restart triggercmdagent.service`
+```console
+foo@rpi:~$ sudo su -
+root@rpi:~# cd /root/.TRIGGERcmdData
+root@rpi:~/.TRIGGERcmdData# mv ./commands.json ./commands.json.bak_$(date "%Y%m%d_%H%M%S)
+<Replace commands.json file with the one in this repo>
+root@rpi:~/.TRIGGERcmdData# systemctl restart triggercmdagent.service
+```
 ### 5.4 Verify on TriggerCMD web
 Ensure that your computer is listed at https://www.triggercmd.com/user/computer/list and the trigger you set is visible
 
