@@ -1,10 +1,13 @@
 #!/bin/bash
 
 # Set up nordvpn rules
+{
 nordvpn set technology nordlynx
-nordvpn set dns 1.1.1.1 1.0.0.1
+nordvpn set dns off
 nordvpn set killswitch off
 nordvpn whitelist add port 22
+nordvpn whitelist add 192.168.86.0/24
+} 2>/dev/null
 
 # Set up iptables rules
 iptables -t nat -A POSTROUTING -o nordlynx -j MASQUERADE
@@ -17,5 +20,5 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -P FORWARD DROP
 iptables -P INPUT DROP
 
-# Connect
+# Connect to NordVPN US Server
 nordvpn connect us

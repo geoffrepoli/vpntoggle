@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Disconnect
+# Disconnect from NordVPN
 nordvpn disconnect
 
-# Clear iptables rules
+# Change iptables
 iptables -P FORWARD ACCEPT
 iptables -P INPUT ACCEPT
 iptables -F
