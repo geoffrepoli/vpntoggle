@@ -1,5 +1,7 @@
 # Configuring a VPN Gateway over Ethernet Toggle with Alexa and NordVPN
 
+### DOCUMENTATION INCOMPLETE: WORK IN PROGRESS. the scripts work though...
+
 ## Part 1: Set up your Raspberry Pi
 
 ### 1.1. Set up Raspberry Pi Imager and format your SD/micro SD card as a boot drive
