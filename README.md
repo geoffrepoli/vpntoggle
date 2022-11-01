@@ -1,7 +1,6 @@
 # Configuring a VPN Gateway over Ethernet Toggle with Alexa and NordVPN
 
-### DOCUMENTATION IS A WORK IN PROGRESS
-#### the scripts all work though
+#### WIP: 
 
 ## Part 1: Set up your Raspberry Pi
 ### 1.1. Set up Raspberry Pi Imager and format your SD/micro SD card as a boot drive
@@ -21,7 +20,7 @@ sudo apt-get dist-upgrade
 ```
 ### 1.5. Configure sysctl.conf
 ```
-sudo mv /etc/sysctl.conf /etc/sysctl.conf.bak_$(date +%Y%m%d_%H%M%S)
+sudo mv /etc/sysctl.conf /etc/sysctl.conf_bak_$(date +%Y%m%d_%H%M%S)
 sudo echo -e "\n# Disable IPv6\nnet.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1\nnet.ipv6.conf.lo.disable_ipv6 = 1\nnet.ipv6.conf.tun0.disable_ipv6 = 1\n\n# Enable IP Routing\nnet.ipv4.ip_forward = 1" >> /etc/sysctl.conf
 sudo sysctl -p
 ```
@@ -78,10 +77,9 @@ triggercmdagent
 ### 5.3 Edit triggers
 ```
 sudo su -
-cd /root/.TRIGGERcmdData
-mv ./commands.json ./commands.json.bak_$(date +%Y%m%d_%H%M%S)
+mv /root/.TRIGGERcmdData/commands.json /root/.TRIGGERcmdData/commands.json_bak_$(date +%Y%m%d_%H%M%S)
 # Replace commands.json file with the one in this repo
-# systemctl restart triggercmdagent.service
+systemctl restart triggercmdagent.service
 ```
 ### 5.4 Verify on TriggerCMD web
 Ensure that your computer is listed at https://www.triggercmd.com/user/computer/list and the trigger you set is visible
