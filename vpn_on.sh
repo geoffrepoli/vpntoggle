@@ -1,7 +1,22 @@
 #!/bin/bash
 
+# Get state of nordvpn settings
+declare -A settingsarraya
+while IFS= read -r a b; do
+  key=$(echo "$line" | awk -F: '{print $1}')
+	value=$(echo "$line" | awk -F: '{print $2}')
+	echo $key:$value
+	settingsarray["$key"]="$value"
+done < <(nordvpn settings | awk -F: '/Technology/,/DNS/{print $1,$2}')
+
+while IFS= read -r line1 <&3 && IFS= read -r line2 <&4; do
+  settingsarray["$line1"]="$line2"
+done 3< <(nordvpn settings | awk '/Whitelisted/{gsub(/:/,"");print $NF}') 4< <(nordvpn settings | awk '/Whitelisted/{getline;print $1;next}')
+
 # Set up nordvpn rules
-nordvpn set technology nordlynx
+if [[ ${settingsarray[Technology]} != "NORDLYNX" ]]; then
+	nordvpn set technology nordlynx
+fi
 nordvpn set dns off
 nordvpn set killswitch off
 nordvpn whitelist add port 22
