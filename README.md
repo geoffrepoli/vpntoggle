@@ -16,12 +16,18 @@ Perform any other optional settings/configurations you may want (such as key-bas
 ### 1.4. Update repos
 ```
 sudo apt-get -y update && sudo apt-get -y upgrade
+```
+```
 sudo apt-get dist-upgrade
 ```
 ### 1.5. Configure sysctl.conf
 ```
 sudo mv /etc/sysctl.conf /etc/sysctl.conf_bak_$(date +%Y%m%d_%H%M%S)
+```
+```
 sudo echo -e "\n# Disable IPv6\nnet.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1\nnet.ipv6.conf.lo.disable_ipv6 = 1\nnet.ipv6.conf.tun0.disable_ipv6 = 1\n\n# Enable IP Routing\nnet.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+```
+```
 sudo sysctl -p
 ```
 This will disable IPv6 (which might leak your location) and sets up forwarding rules for IPv4 so the Raspberry Pi can be used as a gateway for other network devices.
@@ -66,19 +72,33 @@ https://www.triggercmd.com
 ### 5.2 Install TriggerCMD
 ```
 sudo su -
+```
+```
 apt -y install npm nodejs
+```
+```
 wget https://agents.triggercmd.com/triggercmdagent_1.0.1_all.deb
+```
+```
 dpkg -i triggercmdagent_1.0.1_all.deb
+```
+```
 triggercmdagent
-# Paste your agent install token when prompted and hit ENTER. You can find your token here: https://www.triggercmd.com/user/computer/create
-# Now, kill the foreground service by pressing CTRL+C
+```
+Paste your agent install token when prompted and hit ENTER. You can find your token here: https://www.triggercmd.com/user/computer/create
+Now, kill the foreground service by pressing CTRL+C
+```
 /usr/share/triggercmdagent/app/src/installdaemon.sh
 ```
 ### 5.3 Edit triggers
 ```
 sudo su -
+```
+```
 mv /root/.TRIGGERcmdData/commands.json /root/.TRIGGERcmdData/commands.json_bak_$(date +%Y%m%d_%H%M%S)
-# Replace commands.json file with the one in this repo
+```
+Replace commands.json file with the one in this repo
+```
 systemctl restart triggercmdagent.service
 ```
 ### 5.4 Verify on TriggerCMD web

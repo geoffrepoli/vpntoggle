@@ -1,13 +1,11 @@
 #!/bin/bash
 
 # Set up nordvpn rules
-{
 nordvpn set technology nordlynx
 nordvpn set dns off
 nordvpn set killswitch off
 nordvpn whitelist add port 22
-nordvpn whitelist add 192.168.86.0/24
-} 2>/dev/null
+nordvpn whitelist add "$(ip a | grep eth0 | awk '/inet/{print $2}' | sed 's:[^.]*$:0/24:')"
 
 # Set up iptables rules
 iptables -t nat -A POSTROUTING -o nordlynx -j MASQUERADE
